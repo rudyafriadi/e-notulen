@@ -8,6 +8,7 @@ use App\Notulen;
 use App\User;
 use App\agency;
 use PDF;
+use DB;
 
 class DatanotulenController extends Controller
 {
@@ -73,7 +74,7 @@ class DatanotulenController extends Controller
         // $file->move(public_path('assets/file/'),$file->getClientOriginalName());
 
         $notulen->save();
-        return redirect()->route('datanotulen')->with('sukses','Data berhasil diinput');
+        return redirect()->route('datahasilnotulen')->with('sukses','Data berhasil diinput');
     }
 
     public function edit($id){
@@ -119,13 +120,6 @@ class DatanotulenController extends Controller
         $notulen = Notulen::find($id);
         $notulen->delete();
         return redirect()->route('datanotulen');
-    }
-
-    // public function exportPDF()
-    // {
-    //     $notulen = Notulen::where('tahun','2018')->get();
-    //     $pdf = PDF::loadView('export.ExportNotulen', compact('notulen'));
-    //     return $pdf->download('Laporan_notulen_'.date('Y-m-d_H-i-s').'.pdf');
-    // }
+    }    
 
 }

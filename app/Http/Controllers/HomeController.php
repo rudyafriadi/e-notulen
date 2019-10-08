@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $countnotulen = DB::table('notulens')->count();
+        $countnotulen_rampung = DB::table('notulens')->where('status','selesai')->count();
+        $countnotulen_pending = DB::table('notulens')->where('status','pending')->count();
+        $countnotulius = DB::table('users')->count();
+        return view('home', compact('countnotulen','countnotulius','countnotulen_pending','countnotulen_rampung'));
     }
     
 }

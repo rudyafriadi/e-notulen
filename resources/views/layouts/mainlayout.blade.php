@@ -96,26 +96,18 @@
   <!-- /.navbar -->
 
   @include('layouts.sidemenu');
-
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    {{-- <section class="content-header">
-      
-    </section> --}}
-
-    <!-- Main content -->
-    <section class="content">
-      @yield('content')
-      <button name="filter" id="filter" class="btn btn-warning btn-sm" type="button">Cari</button>
-    </section>
-    <!-- /.content -->
+      <div class="content-header">
+        <section class="content">
+          @yield('content')
+        </section>
+      </div>
   </div>
   <!-- /.content-wrapper -->
 
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.0-rc.1
+      <b>Version</b> 1.0
     </div>
     <strong>Copyright &copy; 2019 <a href="diskominfo.anambaskab.go.id">DISKOMINFOTIK Kabupaten Kepulauan Anambas</a>.</strong> All rights
     reserved.
@@ -181,7 +173,8 @@
   });
   </script>
 
-<script>
+  <script>
+  
   $(document).ready(function(){
     $('.input-daterange').datepicker({
       todayBtn:'linked',
@@ -197,21 +190,14 @@
             processing: true,
             serverSide: true,
             ajax: {
-              url:'{{ route('laporan') }}',
+              url:'{{ route("laporan") }}',
               data: {from_date:from_date, to_date:to_date}
             },
             columns: [
-              {
-                  data:'id',
-                  name:'id'
-              },
+              
               {
                   data:'tanggal',
                   name:'tanggal'
-              },
-              {
-                  data:'created_at',
-                  name:'created_at'
               },
               {
                   data:'agenda_rapat',
@@ -227,30 +213,86 @@
               },
               {
                   data:'status',
-                  name:'status',
-              },
-              {
-                  data:'file',
-                  name:'file'
+                  name:'status'
               }
             ]
-        })
+        });
     }
-      $(.filter).click(function(){
-          // var from_date = $('#from_date').val();
-          // var to_date = $('#to_date').val();
-          // if(from_date != '' && to_date != '')
-          // {
-          //     $('#example1').DataTable().destroy();
-          //     load_data(from_date, to_date);
-          // }
-          // else
-          // {
-          //     alert('Both data is required');
-          // }
-          alert('tesss');
+      $("#filter").click(function(){
+          var from_date = $('#from_date').val();
+          var to_date = $('#to_date').val();
+          if(from_date != '' && to_date != '')
+            {
+                $('#order_table').DataTable().destroy();
+                load_data(from_date, to_date);
+            }
+          else
+            {
+                alert('Both data is required');
+            }
+          // alert(from_date);
       });
+
+      $("#refresh").click(function(){
+          var from_date = $('#from_date').val();
+          var to_date = $('#to_date').val();
+          $('#order_table').DataTable().destroy();
+          load_data();
+      })
+
+      
+      // export_pdf();
+      // function export_pdf(from_date = '', to_date = '')
+      // {
+      //     $('#order_table').DataTable({
+      //         processing: true,
+      //         serverSide: true,
+      //         ajax: {
+      //           url:'{{ route("export") }}',
+      //           data: {from_date:from_date, to_date:to_date}
+      //         },
+      //         columns: [
+              
+      //         {
+      //             data:'tanggal',
+      //             name:'tanggal'
+      //         },
+      //         {
+      //             data:'agenda_rapat',
+      //             name:'agenda_rapat'
+      //         },
+      //         {
+      //             data:'j_rapat',
+      //             name:'j_rapat'
+      //         },
+      //         {
+      //             data:'users_id',
+      //             name:'users_id'
+      //         },
+      //         {
+      //             data:'status',
+      //             name:'status'
+      //         }
+      //       ]
+      //     });
+      // }
+
+      // $("#export_pdf").click(function(){
+      //     var from_date = $('#from_date').val();
+      //     var to_date = $('#to_date').val();
+      //     if(from_date != '' && to_date != '')
+      //       {
+      //         $('#order_table').DataTable().destroy();
+      //         export_pdf();
+      //       }
+      //     else
+      //       {
+      //           alert('Both data is required');
+      //       }
+      // })
   });
+
+  
     
 
    

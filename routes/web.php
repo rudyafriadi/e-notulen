@@ -51,10 +51,11 @@ Route::prefix('datahasilnotulen')->group(function(){
     Route::get('/delete/{id}','DatanotulenController@delete');
     Route::get('/view/{id}','DatanotulenController@view');
     Route::put('/insertfile/{id}','DatanotulenController@insertfile');
-    Route::get('/export-pdf/{tahun}', 'DatanotulenController@exportPDF')->name('export');
+    
     // Route::get('/search','NotulenController@search')->name('search');
 });
 
 Route::prefix('laporan')->group(function(){
     Route::get('/', 'ReportController@index')->name('laporan')->middleware('auth');
+    Route::get('/export-pdf', 'ReportController@exportPDF')->name('export');
 });

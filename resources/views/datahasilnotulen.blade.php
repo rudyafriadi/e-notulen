@@ -9,49 +9,8 @@
       </div>
       @endif
     <div class="card-header">
-      {{-- <h3 class="card-title">Data Hasil Notulen</h3>  --}}
-          <div class="input-group input-group-sm  ">
-              <div class="input-group-prepend">
-                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                  Filter
-                </button>
-                <ul class="dropdown-menu">
-                <form action="datahasilnotulen" method="GET">
-                  <li class="dropdown-item"><button style="color:black" class="btn btn-warning btn-sm" type="submit">Cari</button></li>
-                
-                  {{-- <li class="dropdown-divider"></li> --}}
-                  <li class="dropdown-item"><button style="color:black" class="btn btn-warning btn-sm" type="submit">Generate PDF</button></li>
-                
-                </ul>
-              </div>
-              <input class="form-control" type="date" name="cari">
-              {{-- <select class="form-control" name="cari" id="">
-                <option value="">Filter Berdasarkan Tahun</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-              </select> --}}
-              &nbsp;
-              s/d
-              &nbsp;
-              <input class="form-control" type="date" name="cari">
-              {{-- <select class="form-control" name="cari" id="">
-                  <option value="">Filter Berdasarkan Bulan</option>
-                  <option value="2018">2018</option>
-                  <option value="2019">2019</option>
-                  <option value="2020">2020</option>
-                </select> --}}
-            </form>
-
-            
-              <div class="col-md-4">
-                  <a type="button" class="float-right btn btn-success btn-sm" data-toggle="modal" data-target="#modal_form"><i class="fas fa-plus"></i>Tambah Data</a>
-              </div>
-          </div>
-      </form>
-          
-          {{-- <a type="button" class="float-right btn btn-success btn-sm" data-toggle="modal" data-target="#modal_form"><i class="fas fa-plus"></i>Tambah Data</a> --}}
-   
+      <h3 class="card-title">Data Hasil Notulen</h3> 
+      <a type="button" class="float-right btn btn-success btn-sm" data-toggle="modal" data-target="#modal_form"><i class="fas fa-plus"></i>Tambah Data</a>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -66,7 +25,6 @@
           <th>Notulius</th>
           <th>Status</th>
           <th>file</th>
-          <th>tahun</th>
           <th>Aksi</th>
         </tr>
         </thead>
@@ -92,7 +50,6 @@
           @else
             <td><a href="{{URL::to('/')}}/assets/file/{{$data->file}}" target="_blank">{{$data->file}}</a> </td>
           @endif
-          <td>{{$data->tahun}}</td>
           <td>
             @if ($data->status==1)
               <a href="/datahasilnotulen/edit/{{$data->id}}" class="btn btn-warning btn-xs disabled"><i class="fas fa-edit"></i></a>
@@ -157,7 +114,7 @@
             
             <div class="form-group">
               <label for="exampleInputEmail1">Tanggal</label>
-              <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal Rapat" autofocus required>
+              <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal Rapat" autofocus required>
             </div>
 
             <div class="form-group">
