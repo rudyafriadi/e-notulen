@@ -48,9 +48,9 @@
                     Remember Me
                 </label>
                 </div> --}}
-                <p class="mb-0">
+                {{-- <p class="mb-0">
                     <a class="nav-link" href="/registerlte  ">{{ __('Daftar') }}</a>
-                </p>
+                </p> --}}
             </div>
             <!-- /.col -->
             <div class="col-4">

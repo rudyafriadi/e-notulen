@@ -25,19 +25,16 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Jenis Rapat</label>
-            <input type="text" class="form-control" id="j_rapat" name="j_rapat" value="{{$notulen->j_rapat}}">
+            <input type="text" class="form-control" id="j_rapat" name="j_rapat" value="{{$notulen->category->nama_kategori}}">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Notulius</label>
-            <input type="text" class="form-control" id="users_id" name="users_id" value="{{$notulen->users_id}}">
+            <input type="text" class="form-control" id="users_id" name="users_id" value="{{$notulen->user->name}}">
         </div>
-        <div class="form-group">
-          {{-- <label for="exampleInputEmail1">Status</label> --}}
-          <input type="hidden" value="0" class="form-control" id="status" name="status" placeholder="$notulen->status">
-        </div>
+        
         <div class="form-group">
             <label for="exampleInputEmail1">Tanggal Rapat</label>
-            <input type="text" class="form-control" id="tanggal" name="tanggal" value="{{$notulen->tanggal}}">
+            <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$notulen->tanggal}}">
         </div>
         <div class="form-group">
                 <label for="exampleInputEmail1">Hari</label>

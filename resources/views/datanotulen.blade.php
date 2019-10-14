@@ -38,7 +38,7 @@
               <tr>
                 <td>{{$notulius->name}}</td>
                 <td>{{$notulius->nip}}</td>
-                <td>{{$notulius->instansi}}</td>
+                <td>{{$notulius->agency->nama_instansi}}</td>
                 <td>{{$notulius->username}}</td>
                 <td>
                   <a href="/datahasilnotulen/delete/{{$notulius->id}}" class="btn btn-danger btn-xs"><i class="fas fa-trash"></i></a>
@@ -89,9 +89,9 @@
 
             <div class="input-group mb-3">
                 {{-- <input id="name" type="text" class="form-control @error('instansi') is-invalid @enderror" name="instansi" value="{{ old('instansi') }}" required autocomplete="instansi" placeholder="Instansi" autofocus> --}}
-                <select name="instansi" class="form-control select @error('instansi') is-invalid @enderror" data-placeholder="Choose">
+                <select name="agency_id" class="form-control select @error('agency_id') is-invalid @enderror" data-placeholder="Choose">
                     <@foreach ($data_agency as $data)
-                        <option value="{{ $data->nama_instansi }}">{{ $data->nama_instansi}}</option>
+                        <option value="{{ $data->id }}">{{ $data->nama_instansi}}</option>
                     @endforeach
                 </select>
 
@@ -152,13 +152,14 @@
           <div class="input-group mb-3">
               {{-- <input id="role" type="text" class="form-control @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" autocomplete="role" placeholder="role" autofocus> --}}
               
-              @if ( $notulius->role == 1 )
-                  <select name="role" class="form-control select @error('role') is-invalid @enderror" data-placeholder="Choose">
-                      <option value="1">Super Admin</option>
-                      <option value="2">Admin</option>
+              @if ( $notulius->role_id == 1 )
+                  <select name="role_id" class="form-control select @error('role_id') is-invalid @enderror" data-placeholder="Choose">
+                      <@foreach ($data_role as $data)
+                          <option value="{{ $data->id }}">{{ $data->nama_role}}</option>
+                      @endforeach
                   </select>
               @else
-                  <select name="role" class="form-control select @error('role') is-invalid @enderror" data-placeholder="Choose">
+                  <select name="role_id" class="form-control select @error('role_id') is-invalid @enderror" data-placeholder="Choose">
                       <option value="2">Admin</option>
                   </select>
               @endif

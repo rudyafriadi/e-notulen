@@ -36,8 +36,8 @@
           <td>{{$data->tanggal}}</td>
           <td>{{$data->created_at}}</td>
           <td>{{$data->agenda_rapat}}</td>
-          <td>{{$data->j_rapat}}</td>
-          <td>{{$data->users_id}}</td>
+          <td>{{$data->category->nama_kategori}}</td>
+          <td>{{$data->user->name}}</td>
           
           @if ($data->status=="selesai")  
             <td><span class="badge bg-success">Selesai</span></td>
@@ -58,8 +58,8 @@
             @endif  
               <a href="/datahasilnotulen/view/{{$data->id}}" class="btn btn-info btn-xs"><i class="fas fa-eye"></i></a>
             
-            @if (Auth::user()->role == 1)
-              <a href="/datahasilnotulen/delete/{{$data->id}}" class="btn btn-danger btn-xs"><i class="fas fa-trash"></i></a>
+            @if (Auth::user()->role_id == 1)
+              <a href="/datahasilnotulen/delete/{{$data->id}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
             @else
               <a href="/datahasilnotulen/delete/{{$data->id}}" class="btn btn-danger btn-xs disabled"><i class="fas fa-trash"></i></a>
             @endif
@@ -92,22 +92,27 @@
                 <input type="text" class="form-control" id="agenda_rapat" name="agenda_rapat" placeholder="Agenda Rapat" autofocus required>
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Jenis Rapat</label>
-                <input type="text" class="form-control" id="j_rapat" name="j_rapat" placeholder="Jenis Rapat" autofocus required>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Instansi</label>
-              <select name="instansi" class="form-control select2" data-placeholder="Choose">
-                  <@foreach ($instansi as $data)
-                      <option value="{{ $data->nama_instansi }}">{{ $data->nama_instansi}}</option>
+              <label for="exampleInputEmail1">Jenis Rapat</label>
+              <select name="category_id" class="form-control select2" data-placeholder="Choose">
+                  <@foreach ($kategori as $data)
+                      <option value="{{ $data->id}}">{{ $data->nama_kategori}}</option>
                   @endforeach
               </select>
             </div>
             <div class="form-group">
+              <label for="exampleInputEmail1">Instansi</label>
+              <select name="agency_id" class="form-control select2" data-placeholder="Choose">
+                  <@foreach ($instansi as $data)
+                      <option value="{{ $data->id }}">{{ $data->nama_instansi}}</option>
+                  @endforeach
+              </select>
+            </div>
+
+            <div class="form-group">
                 <label for="exampleInputEmail1">Notulius</label>
-                <select name="users_id" class="form-control select2" data-placeholder="Choose">
+                <select name="user_id" class="form-control select2" data-placeholder="Choose">
                     <@foreach ($usernotulen as $data)
-                        <option value="{{ $data->name }}">{{ $data->name}}</option>
+                        <option value="{{ $data->id }}">{{ $data->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -136,36 +141,3 @@
     </div>
   </div>
 @endsection
-{{-- <script>
-function addForm(){
-    save_method = "add";
-    $('input[name=_method]').val('POST');
-    $('#modal_form').modal('show');
-    $('#modal-form form') [0].reset();
-    $('.modal-title').text('Tambah Data Notulen');
-  }
-
-  $(function(){
-      $('#modal-form form').validator().on('submit', function (e){
-        if (!e.isDefaultPrevented()){
-          var id = $('#id').val();
-          if(save_method == 'add') url = "{{  url('datahasilnotulen/simpan')  }}";
-          else url = "{{  url('datahasilnotulen/edit' . '/')  }}" + id;
-
-          $.ajax({
-            url : url,
-            type : "POST",
-            data : $('#modal-form form').serialize(),
-            success : function($data){
-              $('#modal-form').modal('hide');
-            },
-            error : function(){
-              alert('Data gagal disimpan');
-            }
-          });
-          return false;
-        }
-      })
-        
-    });
-</script> --}}

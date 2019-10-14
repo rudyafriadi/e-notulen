@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notulen;
 use App\User;
-use App\agency;
+use App\Agency;
+use App\Category;
 use PDF;
 use DB;
 
@@ -25,27 +26,23 @@ class DatanotulenController extends Controller
         // $a['instansi'] = agency::orderby('id', 'DESC')->get();
         // return view('datahasilnotulen', $d, $u, $a);
 
-        $instansi = Auth::user()->instansi;
-        $role = Auth::user()->role;
+        $instansi = Auth::user()->agency_id;
+        $role = Auth::user()->role_id;
+        
         if($role == 1){
-            if ($r->has('cari')) {
-                $notulens = Notulen::where('tahun','LIKE','%'.$r->cari.'%')->get();
-            } else {
-                $notulens = Notulen::all();
-            }
-            $usernotulen = User::all();
-            $instansi = Agency::all();
+            $notulens = Notulen::orderby('id', 'DESC')->get();
+            $usernotulen = User::orderby('id', 'DESC')->get();
+            $instansi = Agency::orderby('id', 'DESC')->get();
+            $kategori = Category::orderby('id', 'DESC')->get();
         } else {
-            if ($r->has('cari')) {
-                $notulens = Notulen::where('tahun','LIKE','%'.$r->cari.'%')->get();
-            } else {
-                $notulens = Notulen::where('instansi', $instansi)->get();
-            }
-            $usernotulen = User::all();
-            $instansi = Agency::where('nama_instansi', $instansi)->get();
-                
+            $notulens = Notulen::where('agency_id', $instansi)->orderby('id', 'DESC')->get();
+            $usernotulen = User::where('agency_id', $instansi)->orderby('id', 'DESC')->get();
+            $instansi = Agency::where('id', $instansi)->orderby('id', 'DESC')->get();
+            // $kategori = Category::where('agency_id', $instansi)->get();
+            $kategori = Category::orderby('id', 'DESC')->get();
+            // dd($kategori);
         }
-        return view ('datahasilnotulen', compact ('notulens','usernotulen','instansi'));
+        return view ('datahasilnotulen', compact ('notulens','usernotulen','instansi','kategori'));
     }
 
     public function exportPDF(Request $tahun)
@@ -63,9 +60,9 @@ class DatanotulenController extends Controller
     public function save(Request $r){
         $notulen = new Notulen;
         $notulen->agenda_rapat = $r->input('agenda_rapat');
-        $notulen->j_rapat = $r->input('j_rapat');
-        $notulen->instansi = $r->input('instansi');
-        $notulen->users_id = $r->input('users_id');
+        $notulen->category_id = $r->input('category_id');
+        $notulen->agency_id = $r->input('agency_id');
+        $notulen->user_id = $r->input('user_id');
         $notulen->tanggal = $r->input('tanggal');
         $notulen->hari = $r->input('hari');
         $notulen->status = $r->input('status');
@@ -119,7 +116,7 @@ class DatanotulenController extends Controller
     public function delete($id){
         $notulen = Notulen::find($id);
         $notulen->delete();
-        return redirect()->route('datanotulen');
+        return redirect()->route('datahasilnotulen');
     }    
 
 }

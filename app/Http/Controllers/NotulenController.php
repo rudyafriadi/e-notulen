@@ -6,24 +6,28 @@ use Illuminate\Http\Request;
 use App\Employe;
 use App\Agency;
 use App\User;
+use App\Role;
 use Illuminate\Support\Facades\Auth;
 
 class NotulenController extends Controller
 {
     public function index()
     {
-        $instansi = Auth::user()->instansi;
-        $role = Auth::user()->role;
+        $instansi = Auth::user()->agency_id;
+        $role = Auth::user()->role_id;
         if($role == 1){
             $data_notulius = User::all();
             $data_agency = Agency::all();
+            $data_role = Role::all();
         } else {
-            $data_notulius = User::where('instansi', $instansi)->get();
-            $data_agency = Agency::where('nama_instansi', $instansi)->get();
+            $data_notulius = User::where('agency_id', $instansi)->get();
+            $data_agency = Agency::where('id', $instansi)->get();
+            // $data_role = Role::all();
         }
         // $data_notulius = User::where('instansi', $instansi)->get();
         
-        return view ('datanotulen',['data_notulius' => $data_notulius], ['data_agency' => $data_agency]);
+        
+        return view ('datanotulen', compact ('data_notulius','data_agency','data_role'));
         // return view ('surat.tables.instansi_table',['data_instansi' => $data_instansi]);
     }
 
@@ -37,10 +41,10 @@ class NotulenController extends Controller
         User::create([
             'name' => $r->name,
             'nip' => $r->nip,
-            'instansi' => $r->instansi,
+            'agency_id' => $r->agency_id,
             'username' => $r->username,
             'password' => bcrypt($r->password),
-            'role' => $r->role,
+            'role_id' => $r->role_id,
         ]);
         return redirect()->route('notulen')->with('sukses','Data berhasil diinput');
     }

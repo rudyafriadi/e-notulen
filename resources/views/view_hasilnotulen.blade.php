@@ -22,12 +22,12 @@
                 <tr>
                     <th>Jenis Rapat</th>
                     <td>:</td>
-                    <td>{{$viewnotulen->j_rapat}}4</td>
+                    <td>{{$viewnotulen->category->nama_kategori}}</td>
                 </tr>
                 <tr>
                     <th>Notulius</th>
                     <td>:</td>
-                    <td>{{$viewnotulen->users_id}}</td>
+                    <td>{{$viewnotulen->user->name}}</td>
                 </tr>
                 <tr>
                     <th>Tanggal</th>

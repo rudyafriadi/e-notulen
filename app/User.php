@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id','name','nip','instansi', 'username', 'password', 'role'
+        'id','name','nip','agency_id', 'username', 'password', 'role_id'
     ];
 
     /**
@@ -37,9 +37,14 @@ class User extends Authenticatable
         'username_verified_at' => 'datetime',
     ];
 
-    public function notulen()
+    public function agency()
     {
-        return $this->hasMany(Notulen::class);
-        // return $this->hasMany('App\Notulen', 'users_id', 'id');
+        return $this->belongsTo("App\agency");
     }
+
+    public function role()
+    {
+        return $this->belongsTo("App\role");
+    }
+
 }

@@ -29,7 +29,7 @@
                     &nbsp;
                     <input  type="text" class="form-control float-right" placeholder="Sampai Tanggal" name="to_date" id="to_date" readonly>
                     &nbsp;
-                    <button name="refresh" id="refresh" class="btn btn-warning btn-sm" type="submit">Refresh</button>
+                    <button name="refresh" id="refresh" class="btn btn-warning btn-sm" type="button">Refresh</button>
 
 
                   <div class="col-md-7">
@@ -56,4 +56,75 @@
     <!-- /.card-body -->
   </div>
  
+@endsection
+
+@section('footer')
+<script>
+  $(document).ready(function(){
+    $('.input-daterange').datepicker({
+      todayBtn:'linked',
+      format:'yyyy-mm-dd',
+      autoclose: true
+    });
+
+    load_data();
+
+    function load_data(from_date = '', to_date = '')
+    {
+        $('#order_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+              url:'{{ route("laporan") }}',
+              data: {from_date:from_date, to_date:to_date}
+            },
+            columns: [
+              
+              {
+                  data:'tanggal',
+                  name:'tanggal'
+              },
+              {
+                  data:'agenda_rapat',
+                  name:'agenda_rapat'
+              },
+              {
+                  data:'category.nama_kategori',
+                  name:'category.nama_kategori'
+              },
+              {
+                  data:'user.name',
+                  name:'user.name'
+              },
+              {
+                  data:'status',
+                  name:'status'
+              }
+            ]
+        });
+    }
+      $("#filter").click(function(){
+          var from_date = $('#from_date').val();
+          var to_date = $('#to_date').val();
+          if(from_date != '' && to_date != '')
+            {
+                $('#order_table').DataTable().destroy();
+                load_data(from_date, to_date);
+            }
+          else
+            {
+                alert('Both data is required');
+            }
+          // alert(from_date);
+      });
+
+      $("#refresh").click(function(){
+          var from_date = $('#from_date').val();
+          var to_date = $('#to_date').val();
+          $('#order_table').DataTable().destroy();
+          load_data();
+      })
+  });
+</script>
+    
 @endsection

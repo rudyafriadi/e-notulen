@@ -43,50 +43,21 @@
         <a href="#" class="nav-link">Contact</a>
       </li> --}}
       <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">{{Auth::user()->instansi}}</a>
+          <a href="#" class="nav-link">{{Auth::user()->agency->nama_instansi}}</a>
       </li>
     </ul>
-    {{-- <p>{{Auth::user()->instansi}}</p> --}}
-     <!-- SEARCH FORM -->
-     {{-- <form class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-          <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-navbar" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-      </form> --}}
 
     <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-            {{-- <a id="nav-link" class="nav-link" href="#" role="button" data-toggle="dropdown" >
-              <div class="user-panel d-flex">
-                <div class="image">
-                    <img src="{{asset('assets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image"> &nbsp
-                    {{ Auth::user()->name }} <span class="caret"></span> 
-                </div>   
-              </div>
-              
-          </a> --}}
 
-              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-                <div class="media"> 
-                    {{ __('Logout') }} 
-                </div>
-              </a>
+          <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            <div class="media"> 
+                {{ __('Logout') }} 
+            </div>
+          </a>
 
-            {{-- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-                <div class="media"> 
-                    {{ __('Logout') }} 
-                </div>
-              </a>
-            </div> --}}
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
           </form>
@@ -140,7 +111,7 @@
 <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
 
 <!-- PAGE SCRIPTS -->
-<script src="{{asset('assets/dist/js/pages/dashboard2.js')}}"></script>
+{{-- <script src="{{asset('assets/dist/js/pages/dashboard2.js')}}"></script> --}}
 
 <!-- DataTables -->
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
@@ -157,7 +128,9 @@
 <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <!-- datepicker -->
 <script src="{{asset('assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{{asset('assets/bower_components/highcharts/highcharts.js')}}"></script>
+@yield("footer")
 
 <script>
   $(function () {
@@ -172,132 +145,6 @@
     });
   });
   </script>
-
-  <script>
   
-  $(document).ready(function(){
-    $('.input-daterange').datepicker({
-      todayBtn:'linked',
-      format:'yyyy-mm-dd',
-      autoclose: true
-    });
-
-    load_data();
-
-    function load_data(from_date = '', to_date = '')
-    {
-        $('#order_table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-              url:'{{ route("laporan") }}',
-              data: {from_date:from_date, to_date:to_date}
-            },
-            columns: [
-              
-              {
-                  data:'tanggal',
-                  name:'tanggal'
-              },
-              {
-                  data:'agenda_rapat',
-                  name:'agenda_rapat'
-              },
-              {
-                  data:'j_rapat',
-                  name:'j_rapat'
-              },
-              {
-                  data:'users_id',
-                  name:'users_id'
-              },
-              {
-                  data:'status',
-                  name:'status'
-              }
-            ]
-        });
-    }
-      $("#filter").click(function(){
-          var from_date = $('#from_date').val();
-          var to_date = $('#to_date').val();
-          if(from_date != '' && to_date != '')
-            {
-                $('#order_table').DataTable().destroy();
-                load_data(from_date, to_date);
-            }
-          else
-            {
-                alert('Both data is required');
-            }
-          // alert(from_date);
-      });
-
-      $("#refresh").click(function(){
-          var from_date = $('#from_date').val();
-          var to_date = $('#to_date').val();
-          $('#order_table').DataTable().destroy();
-          load_data();
-      })
-
-      
-      // export_pdf();
-      // function export_pdf(from_date = '', to_date = '')
-      // {
-      //     $('#order_table').DataTable({
-      //         processing: true,
-      //         serverSide: true,
-      //         ajax: {
-      //           url:'{{ route("export") }}',
-      //           data: {from_date:from_date, to_date:to_date}
-      //         },
-      //         columns: [
-              
-      //         {
-      //             data:'tanggal',
-      //             name:'tanggal'
-      //         },
-      //         {
-      //             data:'agenda_rapat',
-      //             name:'agenda_rapat'
-      //         },
-      //         {
-      //             data:'j_rapat',
-      //             name:'j_rapat'
-      //         },
-      //         {
-      //             data:'users_id',
-      //             name:'users_id'
-      //         },
-      //         {
-      //             data:'status',
-      //             name:'status'
-      //         }
-      //       ]
-      //     });
-      // }
-
-      // $("#export_pdf").click(function(){
-      //     var from_date = $('#from_date').val();
-      //     var to_date = $('#to_date').val();
-      //     if(from_date != '' && to_date != '')
-      //       {
-      //         $('#order_table').DataTable().destroy();
-      //         export_pdf();
-      //       }
-      //     else
-      //       {
-      //           alert('Both data is required');
-      //       }
-      // })
-  });
-
-  
-    
-
-   
-</script>
-
-
 </body>
 </html>

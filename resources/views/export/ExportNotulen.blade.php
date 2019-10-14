@@ -13,7 +13,7 @@
 	</style>
 	<center>
 		<h2>Laporan Data Notulen</h2>
-		<p>{{$instansi}}</p>
+		<p>{{Auth::user()->agency->nama_instansi}}</p>
 		<p>{{$from_date}} s/d {{$to_date}}</p>
 		{{-- <h6><a target="_blank" href="https://www.malasngoding.com/membuat-laporan-…n-dompdf-laravel/">www.malasngoding.com</a></h5> --}}
 	</center>
@@ -38,8 +38,8 @@
 					<td>{{$data->tanggal}}</td>
 					<td>{{$data->created_at}}</td>
 					<td>{{$data->agenda_rapat}}</td>
-					<td>{{$data->j_rapat}}</td>
-					<td>{{$data->users_id}}</td>
+					<td>{{$data->category->nama_kategori}}</td>
+					<td>{{$data->user->name}}</td>
 					<td>{{$data->status}}</td>
                 </tr>
                 @endforeach

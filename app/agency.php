@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class agency extends Model
+class Agency extends Model
 {
     protected $fillable = [
         'nama_instansi',
@@ -18,5 +18,10 @@ class agency extends Model
     public function notulen()
     {
         return $this->hasMany("App\Notulen");
+    }
+
+    public function category()
+    {
+        return $this->hasMany("App\category");
     }
 }

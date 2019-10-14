@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Category;
+use App\Notulen;
+use App\User;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -24,11 +29,40 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $countnotulen = DB::table('notulens')->count();
-        $countnotulen_rampung = DB::table('notulens')->where('status','selesai')->count();
-        $countnotulen_pending = DB::table('notulens')->where('status','pending')->count();
-        $countnotulius = DB::table('users')->count();
-        return view('home', compact('countnotulen','countnotulius','countnotulen_pending','countnotulen_rampung'));
+        
+        // $notulen = Notulen::all();
+        // foreach ($notulen as $not) {
+        //     $year = $not->created_at->format('Y');
+        // }
+        // $year = $notulen->tanggal;
+        
+        // dd($year);
+        $instansi = Auth::user()->agency_id;
+        // dd($instansi);
+        $role = Auth::user()->role_id;
+
+        $countnotulen = Notulen::where('agency_id',$instansi)->count();
+        $countnotulen_rampung = Notulen::where('status','selesai')->where('agency_id',$instansi)->count();
+        $countnotulen_pending = Notulen::where('status','pending')->where('agency_id',$instansi)->count();
+        $countnotulius = User::where('agency_id',$instansi)->count();
+
+        $kategori = Category::where('agency_id',$instansi)->get();
+
+        $categories = [];
+        $data = [];
+
+        foreach ($kategori as $kat) {
+            $notulen = Notulen::with('category')->where('agency_id',$instansi)->where('category_id',$kat->id)->get()->count();
+            // dd($notulen);
+            if($notulen != 0)
+            {
+                $categories[] = $kat->nama_kategori;
+                $data[] = Notulen::with('category')->where('agency_id',$instansi)->where('category_id',$kat->id)->get()->count();
+            }
+        }
+        
+        // dd($data);
+        return view('home', compact('countnotulen','countnotulius','countnotulen_rampung','countnotulen_pending','kategori','categories','data'));
     }
     
 }

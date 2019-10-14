@@ -15,7 +15,6 @@ Auth::routes();
 Route::get('/signin','LoginController@index')->middleware('guest');
 Route::post('/signin','LoginController@postsignin')->name('signin');
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
-Route::get('/export-pdf', 'HomeController@exportPDF');
 
 Route::prefix('datanotulen')->group(function(){
     Route::get('/', 'NotulenController@index')->name('notulen')->middleware('auth');
@@ -34,14 +33,6 @@ Route::prefix('instansi')->group(function(){
     Route::get('/delete/{id}','AgencyController@delete');
     Route::get('/export-pdf', 'AgencyController@exportPDF');
 });
-
-// Route::prefix('pegawai')->group(function(){
-//     Route::get('/', 'EmployeeController@index')->name('pegawai');
-//     Route::post('/simpan','EmployeeController@save');
-//     Route::get('/edit/{id}','EmployeeController@edit');
-//     Route::post('/update/{id}','EmployeeController@update');
-//     Route::get('/delete/{id}','EmployeeController@delete');
-// });
     
 Route::prefix('datahasilnotulen')->group(function(){
     Route::get('/', 'DatanotulenController@index')->name('datahasilnotulen')->middleware('auth');
@@ -51,11 +42,20 @@ Route::prefix('datahasilnotulen')->group(function(){
     Route::get('/delete/{id}','DatanotulenController@delete');
     Route::get('/view/{id}','DatanotulenController@view');
     Route::put('/insertfile/{id}','DatanotulenController@insertfile');
-    
-    // Route::get('/search','NotulenController@search')->name('search');
+});
+
+Route::prefix('kategori')->group(function(){
+    Route::get('/', 'KategoriController@index')->name('kategori')->middleware('auth');
+    Route::post('/simpan','KategoriController@save');
+    Route::get('/edit/{id}','KategoriController@edit');
+    Route::post('/update/{id}','KategoriController@update');
+    Route::get('/delete/{id}','KategoriController@delete');
 });
 
 Route::prefix('laporan')->group(function(){
     Route::get('/', 'ReportController@index')->name('laporan')->middleware('auth');
     Route::get('/export-pdf', 'ReportController@exportPDF')->name('export');
 });
+
+Route::get('/json', 'ReportController@json')->name('json')->middleware('auth');
+

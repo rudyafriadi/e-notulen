@@ -49,13 +49,13 @@
           </li>
           <li class="nav-item has-treeview">
             <a href="/datanotulen" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Data Notulius
               </p>
             </a>
           </li>
-          @if (Auth::user()->role == 1)
+          @if (Auth::user()->role_id == 1)
             <li class="nav-item has-treeview">
               <a href="/instansi" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
@@ -65,6 +65,15 @@
               </a>
             </li> 
           @endif
+
+          <li class="nav-item">
+            <a href="/kategori" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Data Kategori Rapat
+              </p>
+            </a>
+          </li>
 
           <li class="nav-item">
             <a href="/laporan" class="nav-link">
